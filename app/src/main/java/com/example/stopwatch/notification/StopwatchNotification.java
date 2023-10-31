@@ -110,6 +110,7 @@ public class StopwatchNotification {
                 .setContentTitle("Stopwatch")
                 .setOngoing(true)
                 .setOnlyAlertOnce(true)
+                .setSilent(true)
                 .setContentIntent(this.contentPendingIntent);
 
         this.notificationBuilder.setContentText(elapsedTimeText == null? defaultContentText: elapsedTimeText);
