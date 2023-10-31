@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Stopwatch" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+        <item name="android:colorBackground">?attr/SWBackgroundColor</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="SWBackgroundColor">@color/black</item>
+        <item name="SWColorOnBackgroundMutedMin">@color/mildly_transparent_light_grey</item>
+        <item name="SWColorOnBackgroundMuted">@color/transparent_light_grey</item>
+        <item name="SWColorOnBackground">@color/white</item>
+        <item name="SWColorSurfaceMuted">@color/deep_dark_grey</item>
+        <item name="SWColorSurface">@color/deep_dark_tan</item>
+        <item name="SWColorOnSurface">@color/mildly_light_grey</item>
+        <item name="SWColorPrimary">@color/deep_dark_blue</item>
+        <item name="SWColorOnPrimary">@color/mildly_light_grey</item>
+        <item name="SWColorError">@color/deep_dark_red</item>
+    </style>
+</resources>

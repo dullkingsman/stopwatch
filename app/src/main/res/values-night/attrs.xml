@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="SWBackgroundColor" format="reference"/>
+    <attr name="SWColorOnBackgroundMutedMin" format="reference"/>
+    <attr name="SWColorOnBackgroundMuted" format="reference"/>
+    <attr name="SWColorOnBackground" format="reference"/>
+    <attr name="SWColorSurface" format="reference"/>
+    <attr name="SWColorSurfaceMuted" format="reference"/>
+    <attr name="SWColorOnSurface" format="reference"/>
+    <attr name="SWColorPrimary" format="reference"/>
+    <attr name="SWColorOnPrimary" format="reference"/>
+    <attr name="SWColorError" format="reference"/>
+</resources>
