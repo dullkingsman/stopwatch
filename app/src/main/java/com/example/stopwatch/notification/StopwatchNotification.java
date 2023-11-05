@@ -6,11 +6,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.stopwatch.MainActivity;
 import com.example.stopwatch.R;
@@ -62,21 +64,21 @@ public class StopwatchNotification {
         Intent intent = new Intent(this.context, StopwatchNotificationBroadcastReceiver.class);
         intent.setAction(this.supportActionId);
 
-        return PendingIntent.getBroadcast(this.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(this.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     private PendingIntent getMainPendingIntent() {
         Intent intent = new Intent(this.context, StopwatchNotificationBroadcastReceiver.class);
         intent.setAction(this.mainActionId);
 
-        return PendingIntent.getBroadcast(this.context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(this.context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     private PendingIntent getContentPendingIntent() {
         Intent intent = new Intent(this.context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        return PendingIntent.getActivity(this.context, 2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getActivity(this.context, 2, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     public Notification getNotification(String elapsedTimeText) {
@@ -161,10 +163,26 @@ public class StopwatchNotification {
             ) {
                 stopwatch.setLastMainTickerText(stopwatch.mainTickerText.getValue());
 
-                this.notificationManagerCompat.notify(
-                    this.id,
-                    this.getNotification(elapsedTimeText)
-                );
+                boolean shouldNotify = true;
+
+                if (
+                    !NotificationManagerCompat.from(this.context).areNotificationsEnabled() &&
+                    (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                ) {
+                    int result = ContextCompat.checkSelfPermission(
+                        this.context,
+                        android.Manifest.permission.POST_NOTIFICATIONS
+                    );
+
+                    if (result != PackageManager.PERMISSION_GRANTED)
+                        shouldNotify = false;
+                }
+
+                if (shouldNotify)
+                    this.notificationManagerCompat.notify(
+                        this.id,
+                        this.getNotification(elapsedTimeText)
+                    );
             }
         }
     }

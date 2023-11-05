@@ -3,8 +3,6 @@ package com.example.stopwatch.ui;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.res.ColorStateList;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -68,10 +65,8 @@ public class StopWatchView {
 
     private ValueAnimator lapTableContainerHeightAnimator;
 
-    public StopWatchView(MainActivity context, Bundle savedInstanceState) {
+    public StopWatchView(MainActivity context) {
         this.context = context;
-
-        Stopwatch stopwatch = ((StopwatchApp) this.context.getApplication()).getStopwatch();
 
         this.initViews();
 
@@ -79,11 +74,7 @@ public class StopWatchView {
 
         this.initAnimators();
 
-        updateControlUi(stopwatch.getStopwatchStateChangeType(
-            stopwatch.status.getValue()
-        ));
-
-        this.initObserversAndListeners(stopwatch);
+        this.initObserversAndListeners();
     }
 
     private void initViews () {
@@ -168,7 +159,9 @@ public class StopWatchView {
         });
     }
 
-    private void initObserversAndListeners(Stopwatch stopwatch) {
+    private void initObserversAndListeners() {
+        Stopwatch stopwatch = ((StopwatchApp) this.context.getApplication()).getStopwatch();
+
         stopwatch.mainTickerText.observe(context, _mainTickerText -> {
             if (this.mainHoursView.getVisibility() == View.GONE && _mainTickerText.hoursValue > 0) {
                 this.mainHoursView.setVisibility(View.VISIBLE);
